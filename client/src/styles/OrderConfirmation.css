@@ -1,0 +1,159 @@
+.confirm-page {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 100px 1.5rem 4rem;
+}
+
+.confirm-card {
+  background: #1a1a1a;
+  border-radius: 20px;
+  padding: 2.5rem;
+  max-width: 540px;
+  width: 100%;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  text-align: center;
+}
+
+.confirm-checkmark {
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.confirm-card h2 {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.confirm-subtitle {
+  color: #bbb;
+  margin-bottom: 1.5rem;
+}
+
+.confirm-id {
+  background: #252525;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  font-size: 0.88rem;
+  color: #aaa;
+  margin-bottom: 1.5rem;
+}
+
+.confirm-id span {
+  color: var(--primary-color);
+  font-weight: 700;
+  font-family: monospace;
+}
+
+.confirm-section {
+  background: #252525;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.confirm-section h4 {
+  color: #fff;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.confirm-section p {
+  color: #bbb;
+  font-size: 0.88rem;
+  margin-bottom: 0.3rem;
+}
+
+.confirm-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.confirm-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.confirm-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  color: #ddd;
+}
+
+.confirm-item-qty {
+  color: #888;
+  font-size: 0.78rem;
+}
+
+.confirm-item-price {
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 0.88rem;
+}
+
+.confirm-totals {}
+
+.confirm-row {
+  display: flex;
+  justify-content: space-between;
+  color: #bbb;
+  font-size: 0.9rem;
+  padding: 0.25rem 0;
+}
+
+.confirm-total-row {
+  border-top: 1px solid #333;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.confirm-total-row span:last-child {
+  color: var(--primary-color);
+}
+
+.confirm-status {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.confirm-continue-btn {
+  display: block;
+  background: linear-gradient(135deg, var(--primary-color), #a4ff9b);
+  color: #000;
+  border-radius: 12px;
+  padding: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  margin-top: 1.5rem;
+  transition: all 0.3s;
+}
+
+.confirm-continue-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(126, 217, 87, 0.4);
+}
+
+.confirm-home-link {
+  display: block;
+  color: #888;
+  font-size: 0.88rem;
+  text-decoration: none;
+  margin-top: 0.8rem;
+  transition: color 0.2s;
+}
+
+.confirm-home-link:hover {
+  color: var(--primary-color);
+}
