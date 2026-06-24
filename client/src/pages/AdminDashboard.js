@@ -3,7 +3,7 @@ import api from '../api';
 import { AuthContext } from '../context/AuthContext';
 import '../styles/Admin.css';
 
-const emptyForm = { name: '', price: '', image: '', description: '', category: '', stock: '' };
+const emptyForm = { name: '', price: '', image: '', description: '', category: '', stock: '', sizes: '', discountPercent: '' };
 
 const ORDER_STATUSES = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'];
 
@@ -60,7 +60,15 @@ function AdminDashboard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProdError('');
-    const payload = { ...form, price: parseFloat(form.price), stock: form.stock === '' ? 0 : parseInt(form.stock, 10) };
+    const payload = {
+      ...form,
+      price: parseFloat(form.price),
+      stock: form.stock === '' ? 0 : parseInt(form.stock, 10),
+      discountPercent: form.discountPercent === '' ? 0 : parseInt(form.discountPercent, 10),
+      sizes: form.sizes
+        ? form.sizes.split(',').map((s) => s.trim()).filter(Boolean)
+        : [],
+    };
     try {
       if (editingId) await api.put(`/products/${editingId}`, payload);
       else await api.post('/products', payload);
@@ -71,7 +79,16 @@ function AdminDashboard() {
 
   const handleEdit = (product) => {
     setEditingId(product._id);
-    setForm({ name: product.name, price: product.price, image: product.image, description: product.description || '', category: product.category || '', stock: product.stock ?? '' });
+    setForm({
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      description: product.description || '',
+      category: product.category || '',
+      stock: product.stock ?? '',
+      sizes: (product.sizes || []).join(', '),
+      discountPercent: product.discountPercent || '',
+    });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -127,6 +144,8 @@ function AdminDashboard() {
               <label>Image URL <input name="image" value={form.image} onChange={handleChange} required /></label>
               <label>Category <input name="category" value={form.category} onChange={handleChange} placeholder="Sneakers, Casual..." /></label>
               <label>Stock <input name="stock" type="number" min="0" value={form.stock} onChange={handleChange} /></label>
+              <label>Sizes <input name="sizes" value={form.sizes} onChange={handleChange} placeholder="e.g. 7, 8, 9, 10" /></label>
+              <label>Discount % <input name="discountPercent" type="number" min="0" max="90" value={form.discountPercent} onChange={handleChange} placeholder="0" /></label>
             </div>
             <label className="admin-full-width">
               Description

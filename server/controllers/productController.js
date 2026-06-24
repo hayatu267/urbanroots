@@ -24,11 +24,11 @@ exports.getProduct = async (req, res) => {
 // POST /api/products  (admin only)
 exports.createProduct = async (req, res) => {
   try {
-    const { name, price, image, description, category, stock } = req.body;
+    const { name, price, image, description, category, stock, sizes, discountPercent } = req.body;
     if (!name || price === undefined || !image) {
       return res.status(400).json({ message: 'name, price and image are required' });
     }
-    const product = await Product.create({ name, price, image, description, category, stock });
+    const product = await Product.create({ name, price, image, description, category, stock, sizes, discountPercent });
     res.status(201).json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });

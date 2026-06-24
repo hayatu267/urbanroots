@@ -7,6 +7,8 @@ const productSchema = new mongoose.Schema({
   description: { type: String, default: '' },
   category: { type: String, default: 'General' },
   stock: { type: Number, default: 0, min: 0 },
+  sizes: { type: [String], default: [] },
+  discountPercent: { type: Number, default: 0, min: 0, max: 90 },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Product', productSchema);

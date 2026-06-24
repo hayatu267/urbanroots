@@ -295,6 +295,18 @@ nav a:hover {
 @media (max-width: 700px)  { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
 @media (max-width: 420px)  { .product-grid { grid-template-columns: 1fr; } }
 
+/* Mobile tuning: roomier tap targets, tighter spacing */
+@media (max-width: 700px) {
+  .products { padding: 40px 16px; }
+  .products-header { margin-bottom: 28px; }
+  .products-header h3 { font-size: 1.6rem; }
+  .product-body { padding: 12px 14px 16px; }
+  .product-name { font-size: 0.92rem; }
+  .product-price { font-size: 1.1rem; }
+  .product-cart-btn { padding: 13px 0; font-size: 0.85rem; }
+  .overlay-buy-btn { padding: 9px 20px; font-size: 0.82rem; }
+}
+
 /* ---- Card ---- */
 .product-card {
   position: relative;
@@ -305,6 +317,9 @@ nav a:hover {
   border: 1px solid rgba(255,255,255,0.05);
   display: flex;
   flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 .product-card:hover {
@@ -327,6 +342,7 @@ nav a:hover {
 
 .badge-low  { background: #ff9500; color: #000; }
 .badge-out  { background: #ef4444; color: #fff; }
+.badge-discount { background: #22c55e; color: #000; right: 14px; left: auto; }
 
 /* ---- Image wrap + hover overlay ---- */
 .product-img-wrap {
@@ -348,7 +364,7 @@ nav a:hover {
   transform: scale(1.08);
 }
 
-/* Buy Now overlay that slides up on hover */
+/* Buy Now overlay — always visible (works on touch/mobile, not just hover) */
 .product-img-overlay {
   position: absolute;
   inset: 0;
@@ -357,14 +373,20 @@ nav a:hover {
   align-items: flex-end;
   justify-content: center;
   padding-bottom: 18px;
-  opacity: 0;
-  transform: translateY(10px);
+  opacity: 1;
+  transform: translateY(0);
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.product-card:hover .product-img-overlay {
-  opacity: 1;
-  transform: translateY(0);
+/* On larger screens, give it a subtle hover lift for polish (still visible without hovering) */
+@media (hover: hover) {
+  .product-img-overlay {
+    opacity: 0.92;
+  }
+  .product-card:hover .product-img-overlay {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .overlay-buy-btn {
@@ -425,6 +447,20 @@ nav a:hover {
   margin: 4px 0 10px;
 }
 
+.price-old {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #777;
+  text-decoration: line-through;
+  margin-right: 8px;
+}
+
+.price-new {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--primary-color);
+}
+
 /* ---- Add to Cart button ---- */
 .product-cart-btn {
   display: flex;
@@ -465,4 +501,127 @@ nav a:hover {
 
 .btn-icon {
   font-size: 1rem;
+}
+
+/* =============================================
+   NEWSLETTER SECTION
+   ============================================= */
+.newsletter {
+  background: #111;
+  padding: 60px 24px;
+  text-align: center;
+  color: #fff;
+}
+
+.newsletter h2 {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+}
+
+.newsletter p {
+  color: #aaa;
+  margin-bottom: 24px;
+}
+
+.newsletter-form {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  max-width: 460px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.newsletter-form input {
+  flex: 1;
+  min-width: 200px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.newsletter-form input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.newsletter-form button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  background: var(--primary-color);
+  color: #000;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.newsletter-form button:hover {
+  background: #5dbb3f;
+  transform: translateY(-1px);
+}
+
+.newsletter .success-message {
+  color: #22c55e;
+  margin-top: 14px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 500px) {
+  .newsletter-form {
+    flex-direction: column;
+  }
+  .newsletter-form button {
+    width: 100%;
+  }
+}
+
+/* =============================================
+   FOOTER
+   ============================================= */
+.site-footer {
+  background: #0a0a0a;
+  padding: 40px 24px 28px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.footer-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-brand {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-bottom: 16px;
+}
+
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.socials a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.socials a:hover {
+  color: var(--primary-color);
+}
+
+.footer-copy {
+  color: #777;
+  font-size: 0.82rem;
 }

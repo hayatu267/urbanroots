@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import api from '../api';
 
@@ -18,16 +18,25 @@ function Products() {
       .finally(() => setLoading(false));
   }, []);
 
-  const handleAddToCart = (product) => {
-    addToCart({ id: product._id, name: product.name, price: product.price, img: product.image });
+  const finalPrice = (product) => {
+    const discount = Number(product.discountPercent) || 0;
+    return discount > 0 ? product.price * (1 - discount / 100) : product.price;
+  };
+
+  const handleAddToCart = (e, product) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart({ id: product._id, name: product.name, price: finalPrice(product), img: product.image });
     setAddedId(product._id);
     setTimeout(() => setAddedId(null), 1800);
   };
 
-  const handleBuyNow = (product) => {
+  const handleBuyNow = (e, product) => {
+    e.preventDefault();
+    e.stopPropagation();
     navigate('/checkout', {
       state: {
-        buyNow: { id: product._id, name: product.name, price: product.price, img: product.image, quantity: 1 },
+        buyNow: { id: product._id, name: product.name, price: finalPrice(product), img: product.image, quantity: 1 },
       },
     });
   };
@@ -48,14 +57,18 @@ function Products() {
       <div className="product-grid">
         {products.map((product) => {
           const isAdded = addedId === product._id;
+          const hasDiscount = Number(product.discountPercent) > 0;
           return (
-            <div className="product-card" key={product._id}>
+            <Link to={`/product/${product._id}`} className="product-card" key={product._id}>
               {/* Badge */}
               {product.stock <= 5 && product.stock > 0 && (
                 <span className="product-badge badge-low">Only {product.stock} left</span>
               )}
               {product.stock === 0 && (
                 <span className="product-badge badge-out">Out of Stock</span>
+              )}
+              {hasDiscount && product.stock > 0 && (
+                <span className="product-badge badge-discount">-{product.discountPercent}%</span>
               )}
 
               {/* Image */}
@@ -64,7 +77,7 @@ function Products() {
                 <div className="product-img-overlay">
                   <button
                     className="overlay-buy-btn"
-                    onClick={() => handleBuyNow(product)}
+                    onClick={(e) => handleBuyNow(e, product)}
                     disabled={product.stock === 0}
                   >
                     ⚡ Buy Now
@@ -78,11 +91,19 @@ function Products() {
                   <span className="product-category">{product.category}</span>
                 )}
                 <h4 className="product-name">{product.name}</h4>
-                <p className="product-price">${Number(product.price).toFixed(2)}</p>
+
+                {hasDiscount ? (
+                  <p className="product-price">
+                    <span className="price-old">${Number(product.price).toFixed(2)}</span>
+                    <span className="price-new">${finalPrice(product).toFixed(2)}</span>
+                  </p>
+                ) : (
+                  <p className="product-price">${Number(product.price).toFixed(2)}</p>
+                )}
 
                 <button
                   className={`product-cart-btn ${isAdded ? 'added' : ''}`}
-                  onClick={() => handleAddToCart(product)}
+                  onClick={(e) => handleAddToCart(e, product)}
                   disabled={product.stock === 0 || isAdded}
                 >
                   {isAdded ? (
@@ -92,7 +113,7 @@ function Products() {
                   )}
                 </button>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

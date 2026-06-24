@@ -1,0 +1,234 @@
+.pd-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 24px 60px;
+  color: var(--text-color);
+}
+
+.pd-back-link {
+  display: inline-block;
+  color: #888;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+  transition: color 0.2s;
+}
+
+.pd-back-link:hover {
+  color: var(--primary-color);
+}
+
+.pd-loading,
+.pd-error {
+  text-align: center;
+  color: #aaa;
+  padding: 3rem 0;
+}
+
+.pd-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .pd-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+/* Image */
+.pd-image-wrap {
+  position: relative;
+  background: #1e1e1e;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+}
+
+.pd-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pd-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 3;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+
+.pd-badge-discount { background: #22c55e; color: #000; }
+.pd-badge-out { background: #ef4444; color: #fff; }
+
+/* Info column */
+.pd-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.pd-category {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+}
+
+.pd-name {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+
+.pd-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.pd-price-old {
+  font-size: 1.1rem;
+  color: #777;
+  text-decoration: line-through;
+}
+
+.pd-price-new {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--primary-color);
+}
+
+.pd-description {
+  color: #bbb;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.pd-stock-row {
+  margin-bottom: 20px;
+}
+
+.pd-stock {
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.pd-stock-ok   { background: rgba(34,197,94,0.12); color: #22c55e; }
+.pd-stock-low  { background: rgba(255,149,0,0.12); color: #ff9500; }
+.pd-stock-out  { background: rgba(239,68,68,0.12); color: #ef4444; }
+
+/* Sizes */
+.pd-sizes {
+  margin-bottom: 28px;
+}
+
+.pd-sizes-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ccc;
+  margin-bottom: 10px;
+}
+
+.pd-size-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pd-size-btn {
+  min-width: 48px;
+  padding: 10px 14px;
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  background: #1a1a1a;
+  color: #ddd;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pd-size-btn:hover {
+  border-color: var(--primary-color);
+}
+
+.pd-size-btn.selected {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #000;
+}
+
+/* Actions */
+.pd-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: auto;
+}
+
+@media (max-width: 480px) {
+  .pd-actions { flex-direction: column; }
+}
+
+.pd-cart-btn,
+.pd-buy-btn {
+  flex: 1;
+  padding: 14px 0;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: none;
+}
+
+.pd-cart-btn {
+  background: transparent;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+.pd-cart-btn:hover:not(:disabled) {
+  background: var(--primary-color);
+  color: #000;
+}
+
+.pd-cart-btn.added {
+  background: #22c55e;
+  border-color: #22c55e;
+  color: #fff;
+}
+
+.pd-buy-btn {
+  background: linear-gradient(135deg, #ff6b00, #ff9500);
+  color: #fff;
+  box-shadow: 0 4px 18px rgba(255, 107, 0, 0.4);
+}
+
+.pd-buy-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(255, 107, 0, 0.6);
+}
+
+.pd-cart-btn:disabled,
+.pd-buy-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
