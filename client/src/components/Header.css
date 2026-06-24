@@ -5,13 +5,6 @@
   --accent-color: #7ed957;
 }
 
-.dark {
-  --bg-color: #0f0f0f;
-  --text-color: #e0e0e0;
-  --header-bg: #1a1a1a;
-  --accent-color: #7ed957;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -78,16 +71,6 @@
   color: var(--accent-color);
 }
 
-/* Theme toggle */
-.theme-toggle {
-  background: none;
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-  color: var(--text-color);
-  margin-left: 15px;
-}
-
 /* Hamburger toggle */
 .menu-toggle {
   font-size: 26px;
@@ -143,11 +126,6 @@
 
   .logo {
     flex: 1;
-  }
-
-  .theme-toggle {
-    order: 3;
-    margin-top: 10px;
   }
 
   .menu-toggle {

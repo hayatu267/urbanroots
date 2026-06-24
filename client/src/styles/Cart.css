@@ -245,7 +245,7 @@
 }
 
 .cart-empty-state p {
-  color: #aaa;
+  color: var(--text-muted);
 }
 
 .cart-shop-btn {
