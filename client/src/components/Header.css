@@ -43,14 +43,39 @@
 
 /* Brand logo */
 .logo {
-  font-size: 26px;
-  font-weight: bold;
-  color: var(--accent-color);
+  display: flex;
+  align-items: center;
   transition: transform 0.3s ease;
   cursor: pointer;
 }
 .logo:hover {
   transform: scale(1.05);
+}
+
+.ur-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ur-logo-icon {
+  color: var(--accent-color);
+  flex-shrink: 0;
+}
+
+.ur-logo-text {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+.ur-logo-urban {
+  color: var(--text-color);
+}
+
+.ur-logo-roots {
+  color: var(--accent-color);
 }
 
 /* Theme toggle */

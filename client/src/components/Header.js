@@ -4,6 +4,7 @@ import { FaBars, FaTimes, FaMoon, FaSun, FaShoppingCart } from 'react-icons/fa';
 import './Header.css';
 import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
+import Logo from './Logo';
 
 import { Link } from 'react-router-dom';
 
@@ -45,7 +46,9 @@ function Header() {
   return (
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
       <div className="header-top">
-        <Link to="/" className="logo">UrbanRoots</Link>
+        <Link to="/" className="logo">
+          <Logo size={32} />
+        </Link>
 
         <button className="menu-toggle" onClick={toggleMenu}>
           {menuOpen ? <FaTimes /> : <FaBars />}
