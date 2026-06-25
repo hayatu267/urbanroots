@@ -314,3 +314,95 @@
   padding-top: 0.4rem;
   border-top: 1px solid #ddd;
 }
+
+/* ===== MESSAGES TAB ===== */
+.admin-messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-message-card {
+  background: #1a1a1a;
+  border-radius: 14px;
+  padding: 18px 20px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.admin-message-card.unread {
+  border-color: var(--primary-color, #7ed957);
+  background: #1c2218;
+}
+
+.admin-message-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.admin-message-badge {
+  background: #7ed957;
+  color: #000;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.admin-message-email {
+  color: #999;
+  font-size: 0.85rem;
+}
+
+.admin-message-date {
+  color: #777;
+  font-size: 0.8rem;
+}
+
+.admin-message-subject {
+  font-weight: 700;
+  color: #eee;
+  margin-bottom: 6px;
+}
+
+.admin-message-body {
+  color: #ccc;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin-bottom: 14px;
+  white-space: pre-wrap;
+}
+
+.admin-message-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admin-message-actions button,
+.admin-message-reply {
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.admin-message-actions button:not(.admin-delete) {
+  background: #7ed957;
+  color: #000;
+}
+
+.admin-message-reply {
+  background: #2a2a2a;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+}

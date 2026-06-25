@@ -32,7 +32,7 @@ function Login() {
   return (
     <div className="admin-auth-container">
       <form className="admin-auth-form" onSubmit={handleSubmit}>
-        <h2>Admin Login</h2>
+        <h2>Log In</h2>
         {error && <p className="admin-error">{error}</p>}
         <label>
           Email

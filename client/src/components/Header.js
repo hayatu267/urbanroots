@@ -43,7 +43,7 @@ function Header() {
           {isAdmin ? (
             <Link to="/admin" onClick={toggleMenu}>Admin</Link>
           ) : (
-            <Link to="/login" onClick={toggleMenu}>Admin Login</Link>
+            <Link to="/login" onClick={toggleMenu}>Login</Link>
           )}
           {user && (
             <button className="cta-button" onClick={() => { logout(); toggleMenu(); }}>

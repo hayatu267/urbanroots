@@ -33,6 +33,11 @@ function AdminDashboard() {
   const [ordersError, setOrdersError] = useState('');
   const [expandedOrder, setExpandedOrder] = useState(null);
 
+  // --- Messages state ---
+  const [messages, setMessages] = useState([]);
+  const [messagesLoading, setMessagesLoading] = useState(true);
+  const [messagesError, setMessagesError] = useState('');
+
   // Fetch products
   const fetchProducts = async () => {
     try {
@@ -51,7 +56,16 @@ function AdminDashboard() {
     finally { setOrdersLoading(false); }
   };
 
-  useEffect(() => { fetchProducts(); fetchOrders(); }, []);
+  // Fetch contact messages
+  const fetchMessages = async () => {
+    try {
+      const { data } = await api.get('/contact');
+      setMessages(data);
+    } catch { setMessagesError('Failed to load messages'); }
+    finally { setMessagesLoading(false); }
+  };
+
+  useEffect(() => { fetchProducts(); fetchOrders(); fetchMessages(); }, []);
 
   // Products form
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -112,6 +126,20 @@ function AdminDashboard() {
     catch { setOrdersError('Failed to delete order'); }
   };
 
+  // Messages
+  const handleMarkRead = async (id) => {
+    try {
+      const { data } = await api.patch(`/contact/${id}/read`);
+      setMessages((prev) => prev.map((m) => (m._id === id ? data : m)));
+    } catch { setMessagesError('Failed to update message'); }
+  };
+
+  const handleDeleteMessage = async (id) => {
+    if (!window.confirm('Delete this message?')) return;
+    try { await api.delete(`/contact/${id}`); fetchMessages(); }
+    catch { setMessagesError('Failed to delete message'); }
+  };
+
   return (
     <div className="admin-dashboard">
       <div className="admin-header-bar">
@@ -129,6 +157,9 @@ function AdminDashboard() {
         </button>
         <button className={tab === 'orders' ? 'active' : ''} onClick={() => setTab('orders')}>
           📦 Orders ({orders.length})
+        </button>
+        <button className={tab === 'messages' ? 'active' : ''} onClick={() => setTab('messages')}>
+          ✉️ Messages ({messages.filter((m) => !m.read).length} new)
         </button>
       </div>
 
@@ -251,6 +282,41 @@ function AdminDashboard() {
                       </div>
                     </div>
                   )}
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      )}
+
+      {/* ===== MESSAGES TAB ===== */}
+      {tab === 'messages' && (
+        <>
+          {messagesError && <p className="admin-error">{messagesError}</p>}
+          <h3>Contact Messages ({messages.length})</h3>
+          {messagesLoading ? <p>Loading...</p> : messages.length === 0 ? (
+            <p style={{ color: '#aaa' }}>No messages yet.</p>
+          ) : (
+            <div className="admin-messages-list">
+              {messages.map((m) => (
+                <div className={`admin-message-card ${m.read ? '' : 'unread'}`} key={m._id}>
+                  <div className="admin-message-top">
+                    <div>
+                      <strong>{m.name}</strong>
+                      {!m.read && <span className="admin-message-badge">NEW</span>}
+                      <div className="admin-message-email">{m.email}</div>
+                    </div>
+                    <span className="admin-message-date">{new Date(m.createdAt).toLocaleString()}</span>
+                  </div>
+                  {m.subject && <div className="admin-message-subject">{m.subject}</div>}
+                  <p className="admin-message-body">{m.message}</p>
+                  <div className="admin-message-actions">
+                    {!m.read && (
+                      <button onClick={() => handleMarkRead(m._id)}>Mark as Read</button>
+                    )}
+                    <a href={`mailto:${m.email}`} className="admin-message-reply">Reply by Email</a>
+                    <button className="admin-delete" onClick={() => handleDeleteMessage(m._id)}>Delete</button>
+                  </div>
                 </div>
               ))}
             </div>
