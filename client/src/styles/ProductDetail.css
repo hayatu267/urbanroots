@@ -88,7 +88,7 @@
 .pd-name {
   font-size: 2rem;
   font-weight: 800;
-  color: #fff;
+  color: var(--text-color);
   margin-bottom: 14px;
   line-height: 1.2;
 }
@@ -320,6 +320,7 @@
 .pd-star-picker {
   display: flex;
   gap: 4px;
+  flex-wrap: wrap;
 }
 
 .pd-star-btn {
@@ -341,7 +342,7 @@
   color: #f5a623;
 }
 
-.pd-review-form button {
+.pd-review-submit-btn {
   align-self: flex-start;
   padding: 12px 28px;
   border: none;
@@ -353,7 +354,7 @@
   cursor: pointer;
 }
 
-.pd-review-form button:disabled {
+.pd-review-submit-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }

@@ -228,7 +228,7 @@ function ProductDetail() {
             />
           </label>
 
-          <button type="submit" disabled={reviewSubmitting}>
+          <button type="submit" className="pd-review-submit-btn" disabled={reviewSubmitting}>
             {reviewSubmitting ? 'Submitting...' : 'Submit Feedback'}
           </button>
         </form>
