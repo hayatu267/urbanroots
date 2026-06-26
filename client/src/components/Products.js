@@ -95,8 +95,8 @@ function Products() {
 
                 {hasDiscount ? (
                   <p className="product-price">
-                    <span className="price-old">{formatPKR(product.price)}</span>
                     <span className="price-new">{formatPKR(finalPrice(product))}</span>
+                    <span className="price-old">{formatPKR(product.price)}</span>
                   </p>
                 ) : (
                   <p className="product-price">{formatPKR(product.price)}</p>

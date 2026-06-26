@@ -277,7 +277,9 @@ nav a:hover {
   .products-header h3 { font-size: 1.6rem; }
   .product-body { padding: 12px 14px 16px; }
   .product-name { font-size: 0.92rem; }
-  .product-price { font-size: 1.1rem; }
+  .product-price { font-size: 1.1rem; gap: 5px; }
+  .price-new { font-size: 1.05rem; }
+  .price-old { font-size: 0.72rem; }
   .product-cart-btn { padding: 13px 0; font-size: 0.85rem; }
   .overlay-buy-btn { padding: 9px 20px; font-size: 0.82rem; }
 }
@@ -286,7 +288,9 @@ nav a:hover {
   .products { padding: 32px 10px; }
   .product-body { padding: 10px 10px 14px; }
   .product-name { font-size: 0.82rem; }
-  .product-price { font-size: 0.95rem; }
+  .product-price { font-size: 0.95rem; gap: 4px; }
+  .price-new { font-size: 0.88rem; }
+  .price-old { font-size: 0.62rem; }
   .product-category { font-size: 0.65rem; }
   .product-cart-btn { padding: 10px 0; font-size: 0.75rem; }
   .overlay-buy-btn { padding: 7px 14px; font-size: 0.72rem; }
@@ -427,6 +431,10 @@ nav a:hover {
 }
 
 .product-price {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
   font-size: 1.25rem;
   font-weight: 800;
   color: var(--primary-color);
@@ -434,17 +442,20 @@ nav a:hover {
 }
 
 .price-old {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: #777;
   text-decoration: line-through;
-  margin-right: 8px;
+  white-space: nowrap;
+  order: 2;
 }
 
 .price-new {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: var(--primary-color);
+  white-space: nowrap;
+  order: 1;
 }
 
 /* ---- Add to Cart button ---- */

@@ -122,8 +122,8 @@ function ProductDetail() {
           <div className="pd-price-row">
             {hasDiscount ? (
               <>
-                <span className="pd-price-old">{formatPKR(product.price)}</span>
                 <span className="pd-price-new">{formatPKR(finalPrice)}</span>
+                <span className="pd-price-old">{formatPKR(product.price)}</span>
               </>
             ) : (
               <span className="pd-price-new">{formatPKR(product.price)}</span>
