@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import api from '../api';
+import { formatPKR } from '../utils/currency';
 import '../styles/ProductDetail.css';
 
 function ProductDetail() {
@@ -14,6 +15,11 @@ function ProductDetail() {
   const [error, setError] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
   const [added, setAdded] = useState(false);
+
+  const [reviewForm, setReviewForm] = useState({ name: '', rating: 5, comment: '' });
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  const [reviewError, setReviewError] = useState('');
+  const [reviewSuccess, setReviewSuccess] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -68,6 +74,27 @@ function ProductDetail() {
     });
   };
 
+  const handleReviewChange = (e) => {
+    setReviewForm({ ...reviewForm, [e.target.name]: e.target.value });
+  };
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    setReviewSubmitting(true);
+    setReviewError('');
+    try {
+      const { data } = await api.post(`/products/${id}/reviews`, reviewForm);
+      setProduct(data);
+      setReviewForm({ name: '', rating: 5, comment: '' });
+      setReviewSuccess(true);
+      setTimeout(() => setReviewSuccess(false), 3000);
+    } catch (err) {
+      setReviewError(err.response?.data?.message || 'Could not submit your review.');
+    } finally {
+      setReviewSubmitting(false);
+    }
+  };
+
   return (
     <div className="pd-page">
       <Link to="/shop" className="pd-back-link">← Back to Shop</Link>
@@ -85,14 +112,21 @@ function ProductDetail() {
           {product.category && <span className="pd-category">{product.category}</span>}
           <h1 className="pd-name">{product.name}</h1>
 
+          {product.numReviews > 0 && (
+            <div className="pd-rating-summary">
+              <span className="pd-stars">{'★'.repeat(Math.round(product.avgRating))}{'☆'.repeat(5 - Math.round(product.avgRating))}</span>
+              <span className="pd-rating-text">{product.avgRating.toFixed(1)} ({product.numReviews} review{product.numReviews !== 1 ? 's' : ''})</span>
+            </div>
+          )}
+
           <div className="pd-price-row">
             {hasDiscount ? (
               <>
-                <span className="pd-price-old">${Number(product.price).toFixed(2)}</span>
-                <span className="pd-price-new">${finalPrice.toFixed(2)}</span>
+                <span className="pd-price-old">{formatPKR(product.price)}</span>
+                <span className="pd-price-new">{formatPKR(finalPrice)}</span>
               </>
             ) : (
-              <span className="pd-price-new">${Number(product.price).toFixed(2)}</span>
+              <span className="pd-price-new">{formatPKR(product.price)}</span>
             )}
           </div>
 
@@ -140,6 +174,80 @@ function ProductDetail() {
               ⚡ Buy Now
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* ===== REVIEWS & FEEDBACK ===== */}
+      <div className="pd-reviews-section">
+        <h2 className="pd-reviews-title">Customer Feedback</h2>
+
+        <form className="pd-review-form" onSubmit={handleReviewSubmit}>
+          {reviewSuccess && <p className="pd-review-success">✓ Thanks for your feedback!</p>}
+          {reviewError && <p className="pd-review-error">{reviewError}</p>}
+
+          <div className="pd-review-form-row">
+            <label>
+              Your Name
+              <input
+                type="text"
+                name="name"
+                value={reviewForm.name}
+                onChange={handleReviewChange}
+                placeholder="e.g. Ali Raza"
+                required
+              />
+            </label>
+
+            <label>
+              Your Rating
+              <div className="pd-star-picker">
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    className={`pd-star-btn ${n <= reviewForm.rating ? 'filled' : ''}`}
+                    onClick={() => setReviewForm({ ...reviewForm, rating: n })}
+                    aria-label={`${n} star`}
+                  >
+                    ★
+                  </button>
+                ))}
+              </div>
+            </label>
+          </div>
+
+          <label>
+            Your Comment
+            <textarea
+              name="comment"
+              value={reviewForm.comment}
+              onChange={handleReviewChange}
+              placeholder="What did you think of this product?"
+              rows={3}
+              required
+            />
+          </label>
+
+          <button type="submit" disabled={reviewSubmitting}>
+            {reviewSubmitting ? 'Submitting...' : 'Submit Feedback'}
+          </button>
+        </form>
+
+        <div className="pd-review-list">
+          {(!product.reviews || product.reviews.length === 0) ? (
+            <p className="pd-no-reviews">No reviews yet — be the first to leave feedback!</p>
+          ) : (
+            product.reviews.map((r) => (
+              <div className="pd-review-card" key={r._id}>
+                <div className="pd-review-top">
+                  <strong>{r.name}</strong>
+                  <span className="pd-review-stars">{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</span>
+                </div>
+                <p className="pd-review-comment">{r.comment}</p>
+                <span className="pd-review-date">{new Date(r.createdAt).toLocaleDateString()}</span>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

@@ -406,3 +406,36 @@
   display: inline-flex;
   align-items: center;
 }
+
+/* ===== IMAGE UPLOAD ===== */
+.admin-image-upload {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.admin-image-upload input[type="file"] {
+  color: #ccc;
+  font-size: 0.85rem;
+}
+
+.admin-upload-status {
+  color: #7ed957;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.admin-upload-error {
+  color: #ef4444;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.admin-image-preview {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+}

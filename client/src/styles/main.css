@@ -267,8 +267,8 @@ nav a:hover {
 }
 
 @media (max-width: 1024px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 700px)  { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
-@media (max-width: 420px)  { .product-grid { grid-template-columns: 1fr; } }
+@media (max-width: 700px)  { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
+@media (max-width: 360px)  { .product-grid { gap: 10px; } }
 
 /* Mobile tuning: roomier tap targets, tighter spacing */
 @media (max-width: 700px) {
@@ -280,6 +280,17 @@ nav a:hover {
   .product-price { font-size: 1.1rem; }
   .product-cart-btn { padding: 13px 0; font-size: 0.85rem; }
   .overlay-buy-btn { padding: 9px 20px; font-size: 0.82rem; }
+}
+
+@media (max-width: 360px) {
+  .products { padding: 32px 10px; }
+  .product-body { padding: 10px 10px 14px; }
+  .product-name { font-size: 0.82rem; }
+  .product-price { font-size: 0.95rem; }
+  .product-category { font-size: 0.65rem; }
+  .product-cart-btn { padding: 10px 0; font-size: 0.75rem; }
+  .overlay-buy-btn { padding: 7px 14px; font-size: 0.72rem; }
+  .product-badge { font-size: 0.65rem; padding: 3px 8px; }
 }
 
 /* ---- Card ---- */

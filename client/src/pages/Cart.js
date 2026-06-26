@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
+import { formatPKR } from '../utils/currency';
 import '../styles/Cart.css';
 
 function Cart() {
   const { cartItems, removeFromCart, incrementQuantity, decrementQuantity } = useContext(CartContext);
   const navigate = useNavigate();
 
-  const SHIPPING = cartItems.length > 0 ? 5 : 0;
+  const SHIPPING = cartItems.length > 0 ? 200 : 0;
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const total = subtotal + SHIPPING;
 
@@ -45,7 +46,7 @@ function Cart() {
               <img src={item.img} alt={item.name} className="cart-card-img" />
               <div className="cart-card-info">
                 <h4>{item.name}</h4>
-                <p className="cart-card-price">${Number(item.price).toFixed(2)} each</p>
+                <p className="cart-card-price">{formatPKR(item.price)} each</p>
                 <div className="cart-qty-row">
                   <div className="cart-qty-controls">
                     <button onClick={() => decrementQuantity(item.id)}>−</button>
@@ -61,7 +62,7 @@ function Cart() {
                 </div>
               </div>
               <div className="cart-card-subtotal">
-                ${(item.price * item.quantity).toFixed(2)}
+                {formatPKR(item.price * item.quantity)}
               </div>
             </div>
           ))}
@@ -72,16 +73,16 @@ function Cart() {
           <h3>Order Summary</h3>
           <div className="cart-summary-row">
             <span>Subtotal</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>{formatPKR(subtotal)}</span>
           </div>
           <div className="cart-summary-row">
             <span>Shipping</span>
-            <span>${SHIPPING.toFixed(2)}</span>
+            <span>{formatPKR(SHIPPING)}</span>
           </div>
           <div className="cart-summary-divider" />
           <div className="cart-summary-row cart-summary-total">
             <span>Total</span>
-            <span>${total.toFixed(2)}</span>
+            <span>{formatPKR(total)}</span>
           </div>
           <button className="cart-checkout-btn" onClick={() => navigate('/checkout')}>
             Checkout All Items →

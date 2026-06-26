@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import api from '../api';
+import { formatPKR } from '../utils/currency';
 
 function Products() {
   const { addToCart } = useContext(CartContext);
@@ -94,11 +95,11 @@ function Products() {
 
                 {hasDiscount ? (
                   <p className="product-price">
-                    <span className="price-old">${Number(product.price).toFixed(2)}</span>
-                    <span className="price-new">${finalPrice(product).toFixed(2)}</span>
+                    <span className="price-old">{formatPKR(product.price)}</span>
+                    <span className="price-new">{formatPKR(finalPrice(product))}</span>
                   </p>
                 ) : (
-                  <p className="product-price">${Number(product.price).toFixed(2)}</p>
+                  <p className="product-price">{formatPKR(product.price)}</p>
                 )}
 
                 <button

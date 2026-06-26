@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import { formatPKR } from '../utils/currency';
 import '../styles/OrderConfirmation.css';
 
 function OrderConfirmation() {
@@ -46,15 +47,15 @@ function OrderConfirmation() {
                 <span>{item.name}</span>
                 <span className="confirm-item-qty">x{item.quantity}</span>
               </div>
-              <span className="confirm-item-price">${(item.price * item.quantity).toFixed(2)}</span>
+              <span className="confirm-item-price">{formatPKR(item.price * item.quantity)}</span>
             </div>
           ))}
         </div>
 
         <div className="confirm-section confirm-totals">
-          <div className="confirm-row"><span>Subtotal</span><span>${order.subtotal?.toFixed(2)}</span></div>
-          <div className="confirm-row"><span>Shipping</span><span>${order.shipping?.toFixed(2)}</span></div>
-          <div className="confirm-row confirm-total-row"><span>Total</span><span>${order.total?.toFixed(2)}</span></div>
+          <div className="confirm-row"><span>Subtotal</span><span>{formatPKR(order.subtotal)}</span></div>
+          <div className="confirm-row"><span>Shipping</span><span>{formatPKR(order.shipping)}</span></div>
+          <div className="confirm-row confirm-total-row"><span>Total</span><span>{formatPKR(order.total)}</span></div>
         </div>
 
         <div className="confirm-section">

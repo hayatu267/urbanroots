@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import api from '../api';
+import { formatPKR } from '../utils/currency';
 import '../styles/Checkout.css';
 
 const emptyForm = {
@@ -25,7 +26,7 @@ function Checkout() {
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  const SHIPPING = 5;
+  const SHIPPING = 200;
   const subtotal = checkoutItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
   const total = subtotal + SHIPPING;
 
@@ -227,23 +228,23 @@ function Checkout() {
                   <span>{item.name}</span>
                   <span className="checkout-qty">x{item.quantity}</span>
                 </div>
-                <span className="checkout-item-price">${(item.price * item.quantity).toFixed(2)}</span>
+                <span className="checkout-item-price">{formatPKR(item.price * item.quantity)}</span>
               </div>
             ))}
           </div>
           <div className="checkout-summary-row">
-            <span>Subtotal</span><span>${subtotal.toFixed(2)}</span>
+            <span>Subtotal</span><span>{formatPKR(subtotal)}</span>
           </div>
           <div className="checkout-summary-row">
-            <span>Shipping</span><span>${SHIPPING.toFixed(2)}</span>
+            <span>Shipping</span><span>{formatPKR(SHIPPING)}</span>
           </div>
           <div className="checkout-summary-divider" />
           <div className="checkout-summary-row checkout-summary-total">
-            <span>Total</span><span>${total.toFixed(2)}</span>
+            <span>Total</span><span>{formatPKR(total)}</span>
           </div>
 
           <button type="submit" className="checkout-place-order-btn" disabled={submitting}>
-            {submitting ? 'Placing Order...' : `Place Order · $${total.toFixed(2)}`}
+            {submitting ? 'Placing Order...' : `Place Order · ${formatPKR(total)}`}
           </button>
           <p className="checkout-secure-note">🔒 Your information is kept private and secure.</p>
         </div>

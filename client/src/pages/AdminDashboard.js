@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import api from '../api';
 import { AuthContext } from '../context/AuthContext';
+import { formatPKR } from '../utils/currency';
 import '../styles/Admin.css';
 
 const emptyForm = { name: '', price: '', image: '', description: '', category: '', stock: '', sizes: '', discountPercent: '' };
@@ -23,6 +24,8 @@ function AdminDashboard() {
   // --- Products state ---
   const [products, setProducts] = useState([]);
   const [form, setForm] = useState(emptyForm);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadError, setUploadError] = useState('');
   const [editingId, setEditingId] = useState(null);
   const [prodError, setProdError] = useState('');
   const [prodLoading, setProdLoading] = useState(true);
@@ -69,11 +72,35 @@ function AdminDashboard() {
 
   // Products form
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleImageSelect = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    setUploadError('');
+
+    const fileData = new FormData();
+    fileData.append('image', file);
+
+    try {
+      const { data } = await api.post('/upload', fileData);
+      setForm((prev) => ({ ...prev, image: data.url }));
+    } catch (err) {
+      setUploadError(err.response?.data?.message || 'Upload failed. Try again.');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
   const resetForm = () => { setForm(emptyForm); setEditingId(null); };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProdError('');
+    if (!form.image) {
+      setProdError('Please upload a product photo before saving.');
+      return;
+    }
     const payload = {
       ...form,
       price: parseFloat(form.price),
@@ -171,8 +198,23 @@ function AdminDashboard() {
             <h3>{editingId ? '✏️ Edit Shoe' : '➕ Add a New Shoe'}</h3>
             <div className="admin-form-grid">
               <label>Name <input name="name" value={form.name} onChange={handleChange} required /></label>
-              <label>Price ($) <input name="price" type="number" step="0.01" min="0" value={form.price} onChange={handleChange} required /></label>
-              <label>Image URL <input name="image" value={form.image} onChange={handleChange} required /></label>
+              <label>Price (Rs) <input name="price" type="number" step="1" min="0" value={form.price} onChange={handleChange} required /></label>
+              <label className="admin-full-width">
+                Product Photo
+                <div className="admin-image-upload">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageSelect}
+                    disabled={uploadingImage}
+                  />
+                  {uploadingImage && <span className="admin-upload-status">Uploading...</span>}
+                  {uploadError && <span className="admin-upload-error">{uploadError}</span>}
+                  {form.image && (
+                    <img src={form.image} alt="Preview" className="admin-image-preview" />
+                  )}
+                </div>
+              </label>
               <label>Category <input name="category" value={form.category} onChange={handleChange} placeholder="Sneakers, Casual..." /></label>
               <label>Stock <input name="stock" type="number" min="0" value={form.stock} onChange={handleChange} /></label>
               <label>Sizes <input name="sizes" value={form.sizes} onChange={handleChange} placeholder="e.g. 7, 8, 9, 10" /></label>
@@ -200,7 +242,7 @@ function AdminDashboard() {
                     <td><img src={p.image} alt={p.name} className="admin-thumb" /></td>
                     <td>{p.name}</td>
                     <td>{p.category}</td>
-                    <td>${Number(p.price).toFixed(2)}</td>
+                    <td>{formatPKR(p.price)}</td>
                     <td>{p.stock}</td>
                     <td>
                       <button onClick={() => handleEdit(p)}>Edit</button>
@@ -231,7 +273,7 @@ function AdminDashboard() {
                       <span className="admin-order-date">{new Date(order.createdAt).toLocaleDateString()}</span>
                     </div>
                     <div className="admin-order-customer">{order.customer.name} — {order.customer.phone}</div>
-                    <div className="admin-order-total">${order.total?.toFixed(2)}</div>
+                    <div className="admin-order-total">{formatPKR(order.total)}</div>
                     <div className="admin-order-payment">
                       {order.paymentMethod === 'cod' ? '🚚 COD' : '💳 Card'}
                     </div>
@@ -272,11 +314,11 @@ function AdminDashboard() {
                             <div className="admin-order-item" key={i}>
                               {item.image && <img src={item.image} alt={item.name} />}
                               <span>{item.name} x{item.quantity}</span>
-                              <span>${(item.price * item.quantity).toFixed(2)}</span>
+                              <span>{formatPKR(item.price * item.quantity)}</span>
                             </div>
                           ))}
                           <div className="admin-order-item-total">
-                            Total: <strong>${order.total?.toFixed(2)}</strong>
+                            Total: <strong>{formatPKR(order.total)}</strong>
                           </div>
                         </div>
                       </div>
