@@ -131,6 +131,7 @@
   .menu-toggle {
     display: block;
     order: 2;
+    margin-left: 18px;
   }
 
   .nav-links {

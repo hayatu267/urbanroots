@@ -23,7 +23,27 @@ function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  // When the mobile menu is open, pressing the phone's back button should
+  // just close the menu — not navigate away from the site.
+  useEffect(() => {
+    const handlePopState = () => {
+      setMenuOpen(false);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const toggleMenu = () => {
+    setMenuOpen((prev) => {
+      const next = !prev;
+      if (next) {
+        // Push a dummy history entry so the back button has something
+        // harmless to "undo" first, instead of leaving the page.
+        window.history.pushState({ urMenuOpen: true }, '');
+      }
+      return next;
+    });
+  };
 
   return (
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
